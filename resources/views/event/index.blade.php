@@ -3,37 +3,59 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <title>Events</title>
         @vite('resources/css/app.css')
     </head>
     <body>
-        <main class="min-h-screen">
-            <ul class="flex flex-col justify-center">
+        <main class="min-h-screen py-16">
+            <div class="mx-auto max-w-3xl mb-8">
+                <h1 class="text-4xl">Events</h1>
+            </div>
+            <ul class="flex flex-col gap-4">
                 @foreach ($events as $event)
                 <li>
-                    <div class="max-w-sm w-full lg:max-w-full lg:flex pt-px">
-
-                        <div
-                            class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
-                        >
+                    <div
+                        class="flex max-w-3xl mx-auto shadow-md p-4 rounded-lg border border-gray-100"
+                    >
+                        <div class="flex-1 flex flex-col">
                             <div class="mb-8">
-                                <div
-                                    class="text-gray-900 font-bold text-xl mb-2"
-                                >
-                                    {{$event->name}}
+                                <div>
+                                    <p class="font-bold text-2xl">
+                                        {{ $event["name"] }}
+                                    </p>
                                 </div>
                                 <p class="text-gray-700 text-base">
-                                    {{$event->description}}
+                                    {{ $event["description"] }}
                                 </p>
                             </div>
                             <div class="flex items-center">
-                                <div class="text-sm">
-                                    <p class="text-gray-900 leading-none">
-                                        {{$event->organizer}}
+                                <div class="text-md">
+                                    <p>
+                                        by
+                                        <span class="text-gray-900 font-bold">{{
+                                            $event["organizer"]
+                                        }}</span>
                                     </p>
-                                    <p class="text-gray-600">
-                                        {{$event->startDate}}
-                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <div class="flex flex-col items-end text-lg">
+                                <div>
+                                    at
+                                    <span class="font-semibold">
+                                        {{ $event["time"] }}
+                                    </span>
+                                </div>
+                                <div>
+                                    {{ $event["date"] }}
+                                </div>
+
+                                <div>
+                                    in
+                                    <span class="font-semibold">{{
+                                        $event["place"]
+                                    }}</span>
                                 </div>
                             </div>
                         </div>

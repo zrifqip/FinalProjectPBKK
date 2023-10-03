@@ -17,7 +17,7 @@ return new class extends Migration
             $table->mediumText('description');
             $table->dateTime('startDate');
             $table->string('organizer');
-            $table->string('tempat');
+            $table->string('place');
         });
     }
 
