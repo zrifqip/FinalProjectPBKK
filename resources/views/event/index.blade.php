@@ -19,7 +19,7 @@
                     >
                         <div class="flex-1 flex flex-col">
                             <div class="mb-8">
-                                <div>
+                                <div class="mb-2">
                                     <p class="font-bold text-2xl">
                                         {{ $event["name"] }}
                                     </p>
@@ -39,8 +39,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex justify-center items-center">
-                            <div class="flex flex-col items-end text-lg">
+                        <div
+                            class="flex justify-center items-center max-w-[200px]"
+                        >
+                            <div
+                                class="flex flex-col items-end text-end text-lg"
+                            >
                                 <div>
                                     at
                                     <span class="font-semibold">
@@ -53,7 +57,7 @@
 
                                 <div>
                                     in
-                                    <span class="font-semibold">{{
+                                    <span class="font-semibold break-words">{{
                                         $event["place"]
                                     }}</span>
                                 </div>

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->dateTime('startDate');
             $table->string('organizer');
             $table->string('place');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
