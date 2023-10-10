@@ -20,7 +20,8 @@ class EventFactory extends Factory
             'name' => fake()->sentence(4),
             'description' => fake()->paragraph(4),
             'startDate' => fake()->dateTimeBetween('now', '+4 month'),
-            'organizer' => fake()->name(),
+            //make randomize number
+            'organizer_id' => fake()->numberBetween(1, 3),
             'place' => fake()->address(),
         ];
     }

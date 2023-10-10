@@ -34,6 +34,7 @@
                                         by
                                         <span class="text-gray-900 font-bold">{{
                                             $event["organizer"]
+                                            
                                         }}</span>
                                     </p>
                                 </div>

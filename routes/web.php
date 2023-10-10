@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/event', [EventsController::class, 'index']);
+
+Route::get('/Organizer', [EventsController::class, 'Organizer']);
