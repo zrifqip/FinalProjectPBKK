@@ -23,6 +23,6 @@ class EventsController extends Controller
             ]);
         }
 
-        return view('event.index', ['events' => $events]);
+        return view('dashboard', ['events' => $events]);
     }
 }
