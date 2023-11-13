@@ -18,6 +18,9 @@ return new class extends Migration
             $table->dateTime('startDate');
             $table->string('organizer');
             $table->string('place');
+            $table->integer('ticket count');
+            $table->integer('price');
+            $table->dateTime('close_date');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
