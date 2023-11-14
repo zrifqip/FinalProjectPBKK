@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -19,9 +18,17 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    public function roles(): BelongsToMany
+    public function events()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->hasMany(Event::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
     }
     protected $fillable = [
         'name',
