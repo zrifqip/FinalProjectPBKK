@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -17,10 +18,23 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
     protected $fillable = [
         'name',
         'email',
         'password',
+        'no_telpon'
     ];
 
     /**
