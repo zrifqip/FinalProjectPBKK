@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\TipeEvent;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,12 +18,19 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
+        $userId = User::all('id')->random();
+        $tipeEventId = TipeEvent::all('id')->random();
+        
         return [
-            'name' => fake()->sentence(4),
-            'description' => fake()->paragraph(4),
-            'startDate' => fake()->dateTimeBetween('now', '+4 month'),
-            'organizer' => fake()->name(),
-            'place' => fake()->address(),
+            'nama' => fake()->name(),
+            'deskripsi' => fake()->paragraph(4),
+            'tanggal' => fake()->dateTimeBetween('now', '+4 month'),
+            'alamat' => fake()->address(),
+            'jumlah_tiket' => fake()->randomNumber(),
+            'harga' => fake()->numberBetween("10000", "40000"),
+            'tanggal_tutup_pendaftaran' => fake()->dateTimeBetween('now', '+4 month'),
+            'user_id' => $userId,
+            'tipe_event_id' => $tipeEventId,
         ];
     }
 }
