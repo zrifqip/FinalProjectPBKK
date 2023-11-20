@@ -8,13 +8,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('tipe_event', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->primary();
             $table->string('nama');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('event_types');
+        Schema::dropIfExists('tipe_event');
     }
 };

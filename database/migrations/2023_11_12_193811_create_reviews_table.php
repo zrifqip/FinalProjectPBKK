@@ -8,15 +8,20 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->primary();
+            $table->uuid('user_id');
+            $table->integer('event_id');
             $table->string('komentar')->nullable();
-            $table->string('rating');
+            $table->integer('rating');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('event_id')->references('id')->on('events');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('Reviews');
     }
 };

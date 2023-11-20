@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class transaksi extends Model
+class Transaksi extends Model
 {
     public $timestamps = true;
 
-    public function user()
+    public function User()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function tiket()
+    public function Tiket()
     {
         return $this->belongsToMany(Tiket::class);
     }

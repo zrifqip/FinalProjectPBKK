@@ -9,18 +9,18 @@ class Event extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'description', 'startDate', 'organizer', 'place', 'ticket_count', 'price', 'close_date'];
-    public function user()
+    public function User()
     {
         return $this->belongsTo(User::class);
     }
-    public function types(){
-        return $this->belongsTo(EventType::class);
+    public function TipeEvent(){
+        return $this->belongsTo(TipeEvent::class);
     }
-    public function reviews()
+    public function Reviews()
     {
         return $this->hasMany(Review::class);
     }
-    public function transaksi()
+    public function Transaksi()
     {
         return $this->hasMany(Transaksi::class);
     }

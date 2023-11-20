@@ -8,9 +8,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('transaksi', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->primary();
             $table->string('bukti_pembayaran');
             $table->string('status_pembayaran');
+            $table->uuid('user_id')->index();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

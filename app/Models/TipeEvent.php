@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EventType extends Model
+class TipeEvent extends Model
 {
     public $timestamps = false;
     public function Event()

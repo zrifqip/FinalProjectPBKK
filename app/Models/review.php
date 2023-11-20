@@ -4,22 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class review extends Model
+class Review extends Model
 {
     protected $fillable = [
         'komentar',
         'rating',
     ];
     protected $with = ['user', 'event'];
-    public function user()
+    public function User()
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Get the event that the review belongs to.
+     * Get the event that the Review belongs to.
      */
-    public function event()
+    public function Event()
     {
         return $this->belongsTo(Event::class);
     }

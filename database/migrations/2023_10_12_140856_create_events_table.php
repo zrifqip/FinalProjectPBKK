@@ -12,17 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
+            $table->integer('id')->primary();
+            $table->uuid('user_id');
+            $table->integer('tipe_event_id');
+            $table->string('nama');
             $table->mediumText('description');
-            $table->dateTime('startDate');
-            $table->string('organizer');
-            $table->string('place');
-            $table->integer('ticket count');
-            $table->integer('price');
-            $table->dateTime('close_date');
+            $table->dateTime('tanggal');
+            $table->string('alamat');
+            $table->integer('jumlah_tiket');
+            $table->integer('harga');
+            $table->dateTime('tanggal_tutup_pendaftaran');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('tipe_event_id')->references('id')->on('tipe_event');
         });
     }
 

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class tiket extends Model
+class Tiket extends Model
 {
     public $timestamps = false;
-    public function event()
+    public function Event()
     {
         return $this->belongsTo(Event::class);
     }
-    public function tiket()
+    public function Transaksi()
     {
-        return $this->belongsToMany(Tiket::class);
+        return $this->belongsToMany(Transaksi::class);
     }
 }
