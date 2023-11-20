@@ -8,9 +8,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('tiket', function (Blueprint $table) {
-            $table->integer('id')->primary();
-            $table->integer('event_id')->index();
-            $table->integer('transaksi_id')->index();
+            $table->increments('id');
+            $table->unsignedInteger('event_id')->index();
+            $table->unsignedInteger('transaksi_id')->index();
             $table->string('kode');
 
             $table->foreign('event_id')->references('id')->on('events');

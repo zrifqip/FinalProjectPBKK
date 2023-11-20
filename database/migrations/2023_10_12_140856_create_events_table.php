@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->increments('id');
             $table->uuid('user_id');
-            $table->integer('tipe_event_id');
+            $table->unsignedInteger('tipe_event_id');
             $table->string('nama');
             $table->mediumText('deskripsi');
             $table->dateTime('tanggal');
