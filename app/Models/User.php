@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,25 +12,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    public function Events()
-    {
-        return $this->hasMany(Event::class);
-    }
-    public function Reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-    public function Transaksi()
-    {
-        return $this->hasMany(Transaksi::class);
-    }
     protected $fillable = [
         'name',
         'email',
@@ -56,4 +40,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
 }

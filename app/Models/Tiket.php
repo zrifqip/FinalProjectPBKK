@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tiket extends Model
 {
     public $timestamps = false;
-    public function Event()
+
+    protected $table = 'tiket';
+    
+    public function event()
     {
         return $this->belongsTo(Event::class);
     }
-    public function Transaksi()
+    public function transaksi()
     {
-        return $this->belongsToMany(Transaksi::class);
+        return $this->belongsTo(Transaksi::class);
     }
 }

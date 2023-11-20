@@ -10,8 +10,8 @@ class Review extends Model
         'komentar',
         'rating',
     ];
-    protected $with = ['user', 'event'];
-    public function User()
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -19,7 +19,7 @@ class Review extends Model
     /**
      * Get the event that the Review belongs to.
      */
-    public function Event()
+    public function event()
     {
         return $this->belongsTo(Event::class);
     }

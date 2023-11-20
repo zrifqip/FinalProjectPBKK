@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('user_id');
             $table->integer('tipe_event_id');
             $table->string('nama');
-            $table->mediumText('description');
+            $table->mediumText('deskripsi');
             $table->dateTime('tanggal');
             $table->string('alamat');
             $table->integer('jumlah_tiket');

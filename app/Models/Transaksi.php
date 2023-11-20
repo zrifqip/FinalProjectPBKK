@@ -8,12 +8,14 @@ class Transaksi extends Model
 {
     public $timestamps = true;
 
-    public function User()
+    protected $table = 'transaksi';
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function Tiket()
+    public function tiket()
     {
         return $this->belongsToMany(Tiket::class);
     }

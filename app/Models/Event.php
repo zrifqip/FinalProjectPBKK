@@ -8,20 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'startDate', 'organizer', 'place', 'ticket_count', 'price', 'close_date'];
-    public function User()
+    protected $fillable = ['nama', 'deskripsi', 'tanggal', 'alamat', 'jumlah_tiket', 'harga', 'tanggal_tutup_pendaftaran'];
+    protected $table = 'events';
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function TipeEvent(){
+    public function tipeEvent(){
         return $this->belongsTo(TipeEvent::class);
     }
-    public function Reviews()
+    public function reviews()
     {
         return $this->hasMany(Review::class);
     }
-    public function Transaksi()
+    public function tikets()
     {
-        return $this->hasMany(Transaksi::class);
+        return $this->hasMany(Tiket::class);
     }
 }
