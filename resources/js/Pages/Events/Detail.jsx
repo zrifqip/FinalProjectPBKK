@@ -35,10 +35,9 @@ function Detail(props) {
 
     return (
         <div className="container mx-auto p-4">
-            <div className="bg-white shadow-md rounded p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="lg:col-span-2 bg-white shadow-md rounded p-6">
                 <h1 className="text-xl font-bold mb-4">{event.name}</h1>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <h2 className="font-semibold">Date and Time</h2>
                         <p><strong>Date:</strong> {event.date}</p>
@@ -66,22 +65,33 @@ function Detail(props) {
                     </div>
                 </div>
 
-                <div className="mt-6">
-                    <h2 className="font-semibold mb-2">Buy Tickets</h2>
-                    <div className="flex items-center mb-2">
-                        <InputNumber value={ticketQuantity} onValueChange={(e) => setTicketQuantity(e.value)} min={1} max={event.ticket_count} />
-                        <Button label="Buy Ticket" className="p-button-success ml-2" onClick={handleBuyTickets} />
-                    </div>
-                    <p>Tickets left: {ticketsLeft}</p>
-                    <p><strong>Price per Ticket:</strong> ${event.price}</p>
-                    <p><strong>Total Cost:</strong> ${totalCost.toFixed(2)}</p>
-                </div>
+                <div className="col-12 lg:col-4">
+                    <div className="p-3 h-full bg-white shadow-md rounded">
+                        <h2 className="text-900 font-medium text-xl mb-4">Buy Tickets</h2>
 
-                <div className="mt-6">
-                    <Button label="Back to Events" className="p-button-outlined" onClick={handleBackClick} />
+                        {/* Ticket Quantity Input */}
+                        <div className="mb-4">
+                            <label htmlFor="ticketQuantity" className="block text-sm font-medium mb-1">Ticket Quantity</label>
+                            <InputNumber id="ticketQuantity" value={ticketQuantity} onValueChange={(e) => setTicketQuantity(e.value)} min={1} max={event.ticket_count} />
+                        </div>
+
+                        {/* Pricing Details */}
+                        <div className="mb-4">
+                            <p>Tickets left: {ticketsLeft}</p>
+                            <p><strong>Price per Ticket:</strong> ${event.price}</p>
+                            <p><strong>Total Cost:</strong> ${totalCost.toFixed(2)}</p>
+                        </div>
+
+                        {/* Buy Ticket Button */}
+                        <Button label="Buy Ticket" className="p-3 w-full p-button-success" onClick={handleBuyTickets} />
+                    </div>
                 </div>
             </div>
+            <div className="mt-6">
+                <Button label="Back to Events" className="p-button-outlined" onClick={handleBackClick} />
+            </div>
         </div>
+
     );
 }
 
