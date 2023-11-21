@@ -14,11 +14,14 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
+    public $incrementing = false;
+
     protected $fillable = [
-        'name',
+        'nama',
         'email',
         'password',
-        'no_telpon'
+        'no_telpon',
+        'role'
     ];
 
     /**
@@ -42,11 +45,6 @@ class User extends Authenticatable
     ];
 
     
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     public function events()
     {
         return $this->hasMany(Event::class);
