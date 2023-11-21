@@ -9,18 +9,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Str;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
+    public $timestamps = true;
 
     protected $fillable = [
-        'name',
+        'nama',
         'email',
         'password',
         'no_telpon'
     ];
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::creating(function ($user) {
+            $user->{$user->getKeyName()} = (string) Str::uuid();
+        });
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -41,7 +50,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    
+
     /**
      * The attributes that are mass assignable.
      *
