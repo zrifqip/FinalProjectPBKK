@@ -11,6 +11,7 @@ export default function Event({ auth, events }) {
                     <div className="grid grid-cols-3 items-center gap-4">
                         {events.map((event, index) => (
                             <EventCard key={index} {...event} />
+
                         ))}
                     </div>
                 </div>

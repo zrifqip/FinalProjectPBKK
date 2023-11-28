@@ -1,8 +1,8 @@
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
-import Layout from "@/Layouts/Layout";
+import InputError from "@/Components/InputError.jsx";
+import InputLabel from "@/Components/InputLabel.jsx";
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import TextInput from "@/Components/TextInput.jsx";
+import Layout from "@/Layouts/Layout.jsx";
 import { useForm } from "@inertiajs/react";
 
 export default function CreateEvent({ auth }) {
@@ -19,7 +19,7 @@ export default function CreateEvent({ auth }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("events.new"));
+        post(route("events.store"));
     };
 
     return (
