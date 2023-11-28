@@ -35,14 +35,16 @@ class RegisteredUserController extends Controller
             'nama' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'no_telpon' => 'required|string|max:255',
         ]);
 
         $user = User::create([
             'nama' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'no_telpon' => '12340123941',
-            'role' => 'user',
+
+            'no_telpon' => $request->no_telpon,
+            'role' => 'user'
         ]);
         
 

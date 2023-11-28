@@ -3,41 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use DateTime;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class EventsController extends Controller
 {
-    public function index(): Response {
-        $data = Event::all();
+    public function index() {
 
-        $events = [];
-
-        foreach ($data as $d) {
-            $penyelenggara = Event::join('users', 'events.user_id', '=', 'users.id')->where('users.id', $d->user_id)->value('users.nama');
-            
-            array_push($events, [
-                "id" => $d->id,
-                "nama" => $d->nama,
-                "deskripsi" => $d->deskripsi,
-                "tanggal" => date_format(date_create($d->tanggal), 'd F Y'),
-                "waktu" => date_format(date_create($d->tanggal), 'H:i'),
+        $events = Event::with(['user', 'tipeEvent'])->get()->map(function ($event) {
+            $penyelenggara = Event::join('users', 'events.user_id', '=', 'users.id')->where('users.id', $event->user_id)->value('users.nama');
+            return [
+                "id" => $event->id,
+                "nama" => $event->nama,
+                "deskripsi" => $event->deskripsi,
+                "tanggal" => date_format(date_create($event->tanggal), 'd F Y'),
+                "waktu" => date_format(date_create($event->tanggal), 'H:i'),
                 "penyelenggara" => $penyelenggara,
-                "alamat" => $d->alamat,
-                "jumlah_tiket" => $d->jumlah_tiket,
-                "harga" => $d->harga
-            ]);
-        }
+                "alamat" => $event->alamat,
+                "jumlah_tiket" => $event->jumlah_tiket,
+                "harga" => $event->harga
+            ];
+        });
 
         return Inertia::render('Event', [
-            'events' => $events,
+            'events' => $events
         ]);
     }
-    
+    public function show($id) {
+        $event = Event::with(['user', 'tipeEvent'])->findOrFail($id);
+        $eventDetails = [
+            "id" => $event->id,
+            "name" => $event->nama,
+            "date" => (new DateTime($event->tanggal))->format('dS-F-Y'),
+            "time" => (new DateTime($event->tanggal))->format('H:i'),
+            "place" => $event->alamat,
+            "ticket_count" => $event->jumlah_tiket,
+            "price" => $event->harga,
+            "description" => $event->deskripsi,
+            "close_date" => (new DateTime($event->tanggal_tutup_pendaftaran))->format('dS-F-Y H:i'),
+            "user_name" => $event->user->nama,
+            "event_type" => $event->tipeEvent->nama,
+
+        ];
+        return Inertia::render('Events/Detail', [
+            'event' => $eventDetails
+        ]);
+    }
     public function store(Request $request): RedirectResponse
     {
         Event::create([
@@ -54,4 +68,7 @@ class EventsController extends Controller
 
         return redirect("/");
     }
+
 }
+
+

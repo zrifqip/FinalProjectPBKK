@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Str;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
+    public $timestamps = true;
 
     public $incrementing = false;
 
@@ -23,7 +25,14 @@ class User extends Authenticatable
         'no_telpon',
         'role'
     ];
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::creating(function ($user) {
+            $user->{$user->getKeyName()} = (string) Str::uuid();
+        });
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

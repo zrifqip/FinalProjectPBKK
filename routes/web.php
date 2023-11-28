@@ -17,18 +17,19 @@ use Inertia\Inertia;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//});
+Route::get('/events/{id}', [EventsController::class, 'show'])
+    ->middleware(['auth'])
+    ->name('events.detail');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,10 +45,10 @@ Route::get('/events', [EventsController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/events/new', function () {
-        return Inertia::render('Event/Create');
+        return Inertia::render('Events/Create');
     })->name('events.new');
+    Route::post('/events/new', [EventsController::class, 'store'])->name('events.store');
 
-    Route::post('/events/new', [EventsController::class, 'store'])->name('events.new');
 });
 
 

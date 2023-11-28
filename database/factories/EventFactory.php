@@ -20,15 +20,15 @@ class EventFactory extends Factory
     {
         $userId = User::all('id')->random();
         $tipeEventId = TipeEvent::all('id')->random();
-        
+
         return [
-            'nama' => fake()->name(),
+            'nama' => fake()->word(2),
             'deskripsi' => fake()->paragraph(4),
             'tanggal' => fake()->dateTimeBetween('now', '+4 month'),
             'alamat' => fake()->address(),
             'jumlah_tiket' => fake()->randomNumber(),
             'harga' => fake()->numberBetween("10000", "40000"),
-            'tanggal_tutup_pendaftaran' => fake()->dateTimeBetween('now', '+4 month'),
+            'tanggal_tutup_pendaftaran' => fake()->dateTimeBetween('now', '+1 month'),
             'user_id' => $userId,
             'tipe_event_id' => $tipeEventId,
         ];
