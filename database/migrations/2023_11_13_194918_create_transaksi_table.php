@@ -10,9 +10,9 @@ return new class extends Migration {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->increments('id');
             $table->string('bukti_pembayaran');
-            $table->string('status_pembayaran');
+            $table->string('status_pembayaran')->default("Berhasil");
+            $table->integer('harga_total');
             $table->uuid('user_id')->index();
-
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
