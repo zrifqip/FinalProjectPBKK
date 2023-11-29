@@ -36,16 +36,16 @@ class EventsController extends Controller
         $event = Event::with(['user', 'tipeEvent'])->findOrFail($id);
         $eventDetails = [
             "id" => $event->id,
-            "name" => $event->nama,
-            "date" => (new DateTime($event->tanggal))->format('dS-F-Y'),
-            "time" => (new DateTime($event->tanggal))->format('H:i'),
-            "place" => $event->alamat,
-            "ticket_count" => $event->jumlah_tiket,
-            "price" => $event->harga,
-            "description" => $event->deskripsi,
-            "close_date" => (new DateTime($event->tanggal_tutup_pendaftaran))->format('dS-F-Y H:i'),
-            "user_name" => $event->user->nama,
-            "event_type" => $event->tipeEvent->nama,
+            "deskripsi" => $event->deskripsi,
+            "nama" => $event->nama,
+            "tanggal" => (new DateTime($event->tanggal))->format('dS-F-Y'),
+            "waktu" => (new DateTime($event->tanggal))->format('H:i'),
+            "alamat" => $event->alamat,
+            "jumlah_tiket" => $event->jumlah_tiket,
+            "harga" => $event->harga,
+            "tanggal_tutup_pendaftaran" => (new DateTime($event->tanggal_tutup_pendaftaran))->format('dS-F-Y H:i'),
+            "nama_user" => $event->user->nama,
+            "tipe_event" => $event->tipeEvent->nama,
 
         ];
         return Inertia::render('Events/Detail', [

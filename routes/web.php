@@ -39,7 +39,7 @@ Route::get('/', function () {
     return Inertia::render('Home');
 });
 
-Route::get('/events', [EventsController::class, 'index']);
+Route::get('/events', [EventsController::class, 'index'])->name("events.index");
 
 Route::middleware('auth')->group(function () {
     
