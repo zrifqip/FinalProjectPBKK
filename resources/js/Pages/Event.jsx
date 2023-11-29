@@ -1,6 +1,5 @@
 import EventCard from "@/Components/Event/EventCard";
 import Layout from "@/Layouts/Layout";
-import { Head } from "@inertiajs/react";
 
 export default function Event({ auth, events }) {
     return (
