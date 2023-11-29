@@ -6,7 +6,7 @@ use App\Models\Event;
 use DateTime;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class EventsController extends Controller
@@ -52,8 +52,24 @@ class EventsController extends Controller
             'event' => $eventDetails
         ]);
     }
-    public function store(Request $request): RedirectResponse
-    {
+
+    public function edit($id) {
+        $event = Event::find($id);
+
+        return Inertia::render('Events/Edit', ['event' => $event]);
+    }
+    
+    public function store(Request $request): RedirectResponse {
+        $request->validate([
+            'nama' => 'required',
+            'deskripsi' => 'required',
+            'tanggal' => 'required',
+            'alamat' => 'required',
+            'jumlah_tiket' => 'required',
+            'harga' => 'required',
+            'tanggal_tutup_pendaftaran' => 'required',
+        ]);
+
         Event::create([
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
@@ -69,6 +85,37 @@ class EventsController extends Controller
         return redirect("/");
     }
 
+    public function update(Request $request) {
+        $request->validate([
+            'nama' => 'required',
+            'deskripsi' => 'required',
+            'tanggal' => 'required',
+            'alamat' => 'required',
+            'jumlah_tiket' => 'required',
+            'harga' => 'required',
+            'tanggal_tutup_pendaftaran' => 'required',
+        ]);
+
+        $event = Event::find($request->id);
+
+        $event->update([
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'tanggal' => $request->tanggal,
+            'alamat' => $request->alamat,
+            'jumlah_tiket' => $request->jumlah_tiket,
+            'harga' => $request->harga,
+            'tanggal_tutup_pendaftaran' => $request->tanggal_tutup_pendaftaran,
+        ]);
+
+        return Redirect::route('dashboard');
+    } 
+
+    public function delete(Request $request) {
+        $event = Event::find($request->id);
+
+        $event->delete();
+    }
 }
 
 

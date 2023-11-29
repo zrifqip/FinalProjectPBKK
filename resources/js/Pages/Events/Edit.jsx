@@ -1,29 +1,30 @@
-import InputError from "@/Components/InputError.jsx";
-import InputLabel from "@/Components/InputLabel.jsx";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import TextInput from "@/Components/TextInput.jsx";
-import Layout from "@/Layouts/Layout.jsx";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import Layout from "@/Layouts/Layout";
 import { useForm } from "@inertiajs/react";
 
-export default function CreateEvent({ auth }) {
+export default function EditEvent({ auth, event }) {
     const { data, setData, post, processing, errors } = useForm({
-        nama: "",
-        deskripsi: "",
-        tanggal: "",
-        alamat: "",
-        jumlah_tiket: 0,
-        harga: 0,
-        tanggal_tutup_pendaftaran: "",
+        id: event.id,
+        nama: event.nama,
+        deskripsi: event.deskripsi,
+        tanggal: event.tanggal,
+        alamat: event.alamat,
+        jumlah_tiket: event.jumlah_tiket,
+        harga: event.harga,
+        tanggal_tutup_pendaftaran: event.tanggal_tutup_pendaftaran,
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("events.store"));
+        post(route("events.update"));
     };
 
     return (
-        <Layout user={auth.user} title="New Event">
+        <Layout user={auth.user} title="Event">
             <div className="w-full max-w-7xl">
                 <form className="flex flex-col" onSubmit={submit}>
                     <div>
@@ -161,7 +162,7 @@ export default function CreateEvent({ auth }) {
 
                     <div className="mt-4">
                         <PrimaryButton disabled={processing}>
-                            Create
+                            Save
                         </PrimaryButton>
                     </div>
                 </form>
