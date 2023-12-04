@@ -46,13 +46,12 @@ class TransaksiController extends Controller
         // Create a new transaction record
         Transaksi::create([
             'bukti_pembayaran' => $request->bukti_pembayaran->getClientOriginalName(),
-            'status_pembayaran' => 'waiting confirmation',
+            'status_pembayaran' => 'Menunggu Konfirmasi',
             'total_tiket' => $request->total_tiket,
             'harga_total' => $eventData->harga * $request->total_tiket,
             'user_id' => $request->user()->id, // Automatically get the user's ID
             'event_id' => $request->id, // Get event ID from the request
             'admin_id' => $eventData->admin_id,
         ]);
-
     }
 }
