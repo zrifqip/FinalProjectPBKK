@@ -22,8 +22,12 @@ class Event extends Model
     {
         return $this->hasMany(Review::class);
     }
-    public function tikets()
+    public function tiket()
     {
         return $this->hasMany(Tiket::class);
+    }
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'event_id');
     }
 }

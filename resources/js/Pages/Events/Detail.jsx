@@ -1,25 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Panel } from "primereact/panel";
-import { Button } from "primereact/button";
-import { InputNumber } from "primereact/inputnumber";
-import { Card } from "primereact/card";
+import React, { useState} from "react";
 import Layout from "@/Layouts/Layout";
 import { Link } from "@inertiajs/react";
+import {Inertia} from "@inertiajs/inertia";
+
 
 function Detail({ auth, event }) {
-    const [ticketQuantity, setTicketQuantity] = useState(1);
 
-    const handleBuyTickets = () => {
-        console.log(`Buying ${ticketQuantity} tickets for event ${event.name}`);
-    };
 
     if (!event) {
         return <div>Loading event details...</div>;
     }
+    const [count, setCount] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
 
-    const totalCost = event.harga * ticketQuantity;
-    const ticketsLeft = event.jumlah_tiket - ticketQuantity;
+    const handleIncrease = () => {
+        setCount(count + 1);
+        setTotalPrice(totalPrice + event.harga);
+    };
+    const handleDecrease = () => {
+        if (count > 0) {
+            setCount(count - 1);
+            setTotalPrice(totalPrice - event.harga);
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        Inertia.visit(route('transaction.confirm-payment', {
+            id: event.id,
+            totalPrice: totalPrice, // Assuming you have this data in a state or prop
+            totalTickets: count // Assuming you have this data in a state or prop
+        }));
+    };
+
+
 
     return (
         <Layout user={auth.user} title={event.nama}>
@@ -65,48 +79,18 @@ function Detail({ auth, event }) {
 
                     <div className="col-12 lg:col-4">
                         <div className="p-3 h-full bg-white shadow-md rounded">
-                            <h2 className="text-900 font-medium text-xl mb-4">
-                                Beli Tiket
-                            </h2>
-
-                            {/* Ticket Quantity Input */}
-                            <div className="mb-4">
-                                <label
-                                    htmlFor="ticketQuantity"
-                                    className="block text-sm font-medium mb-1"
-                                >
-                                    Jumlah Tiket
-                                </label>
-                                <InputNumber
-                                    id="ticketQuantity"
-                                    value={ticketQuantity}
-                                    onValueChange={(e) =>
-                                        setTicketQuantity(e.value)
-                                    }
-                                    min={1}
-                                    max={event.jumlah_tiket}
-                                />
+                            <p>Total Tiket</p>
+                            <div className="flex items-center justify-between">
+                                <button className="bg-blue-500 text-white px-3 py-2" onClick={handleDecrease}>-</button>
+                                <span>{count}</span>
+                                <button className="bg-blue-500 text-white px-3 py-2" onClick={handleIncrease}>+</button>
                             </div>
+                            <p>Sisa tiket: {event.jumlah_tiket}</p>
 
-                            {/* Pricing Details */}
-                            <div className="mb-4">
-                                <p>Sisa tiket: {ticketsLeft}</p>
-                                <p>
-                                    <strong>Harga Tiket:</strong> Rp
-                                    {event.harga.toFixed(2)}
-                                </p>
-                                <p>
-                                    <strong>Jumlah Harga:</strong> Rp
-                                    {totalCost.toFixed(2)}
-                                </p>
-                            </div>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleSubmit}>
+                                Beli
+                            </button>
 
-                            {/* Buy Ticket Button */}
-                            <Button
-                                label="Beli Tiket"
-                                className="p-3 w-full p-button-success"
-                                onClick={handleBuyTickets}
-                            />
                         </div>
                     </div>
                 </div>

@@ -53,7 +53,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    
+
     public function events()
     {
         return $this->hasMany(Event::class);
@@ -65,5 +65,14 @@ class User extends Authenticatable
     public function transaksi()
     {
         return $this->hasMany(Transaksi::class);
+    }
+    public function transaksiAsCustomer()
+    {
+        return $this->hasMany(Transaksi::class, 'user_id');
+    }
+
+    public function transaksiAsAdmin()
+    {
+        return $this->hasMany(Transaksi::class, 'admin_user_id');
     }
 }

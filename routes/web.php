@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,18 +43,18 @@ Route::get('/', function () {
 Route::get('/events', [EventsController::class, 'index'])->name("events.index");
 
 Route::middleware('auth')->group(function () {
-    
+    Route::get('/transaction/{id}/confirm-payment', [TransaksiController::class, 'show'])->name('transaction.confirm-payment');
     Route::get('/events/new', function () {
         return Inertia::render('Events/Create');
     })->name('events.new');
     Route::post('/events/new', [EventsController::class, 'store'])->name('events.store');
-    
+
     Route::get('/events/detail/{id}', [EventsController::class, 'show'])->name('events.detail');
 
     Route::get('/events/detail/{id}/edit', [EventsController::class, 'edit'])->name('events.edit');
-    
+
     Route::post('/events/edit', [EventsController::class, 'update'])->name('events.update');
-    
+
     Route::post('/events/delete', [EventsController::class, 'delete'])->name('events.delete');
     Route::post('/events', [EventsController::class, 'store'])->name('events.store');
 
@@ -62,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/events', [DashboardController::class, 'events'])->name('dashboard.events');
 
     Route::get('/dashboard/transaksi', [DashboardController::class, 'transaksi'])->name('dashboard.transaksi');
+    Route::post('/confirm-payment', [TransaksiController::class, 'confirmPayment'])->name('transaction.confirmpayment');
+
 });
-
-
 require __DIR__.'/auth.php';
