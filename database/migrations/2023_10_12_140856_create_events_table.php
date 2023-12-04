@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('alamat');
             $table->integer('jumlah_tiket');
             $table->integer('harga');
+            $table->string('banner');
+            $table->dateTime('tanggal_buka_pendaftaran');
             $table->dateTime('tanggal_tutup_pendaftaran');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

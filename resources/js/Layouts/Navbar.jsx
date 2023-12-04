@@ -17,57 +17,71 @@ export default function Navbar({ user }) {
         },
     ];
     return (
-        <header className="bg-white fixed top-0 z-[100] w-full shadow-md">
-            <div className="mx-auto max-w-7xl flex h-20 flex-row justify-between items-center px-12 py-6">
-                <nav className="flex flex-row items-center gap-8">
-                    <Link href="/" className="text-xl">
-                        ventik
-                    </Link>
+        <header className="bg-primary-300 fixed top-0 z-[100] w-full rounded-b-3xl shadow-md">
+            <div className="grid grid-cols-12 items-center mx-auto max-w-7xl h-24 px-12 py-6">
+                <nav className="col-span-5 flex flex-row items-center gap-8">
                     <ul className="flex flex-row gap-6">
                         {links.map(({ href, nama }, index) => (
                             <li key={index}>
-                                <Link href={href}>{nama}</Link>
+                                <Link href={href}>
+                                    <div className="font-medium text-black text-lg hover:text-primary-900">
+                                        {nama}
+                                    </div>
+                                </Link>
                             </li>
                         ))}
                     </ul>
                 </nav>
-                {user ? (
-                    <div className="inline-flex items-center gap-8">
-                        {user.role === "user" && (
-                            <Link href={route("events.new")}>Create</Link>
-                        )}
+                <Link
+                    href="/"
+                    className="flex justify-center col-span-2 text-3xl font-bold hover:scale-125 ease-in-out duration-200"
+                >
+                    ventik
+                </Link>
+                <div className="flex justify-end col-span-5">
+                    {user ? (
                         <div className="flex flex-row items-center gap-4">
-                            <Link href={route("profile.edit")}>
+                            {user.role === "user" && (
+                                <Link
+                                    href={route("events.new")}
+                                    className="text-black font-medium text-lg hover:text-primary-900"
+                                >
+                                    Create
+                                </Link>
+                            )}
+                            <Link
+                                href={route("profile.edit")}
+                                className="text-black font-medium text-lg hover:text-primary-900"
+                            >
                                 {user.nama}
                             </Link>
                             <Link
                                 href={route("logout")}
                                 as="button"
                                 method="post"
+                                className="text-primary-900 font-medium hover:text-primary-200 rounded-full px-4 py-2 border-2 border-primary-400 hover:bg-primary-400"
                             >
-                                <div className="border border-black px-4 py-2 rounded-xl">
-                                    Log Out
-                                </div>
+                                Log Out
                             </Link>
                         </div>
-                    </div>
-                ) : (
-                    <div>
-                        <Link
-                            href={route("login")}
-                            className="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                        >
-                            Log in
-                        </Link>
+                    ) : (
+                        <div className="flex gap-4 text-lg font-medium">
+                            <Link
+                                href={route("login")}
+                                className="text-black hover:text-primary-900"
+                            >
+                                Log in
+                            </Link>
 
-                        <Link
-                            href={route("register")}
-                            className="ms-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                        >
-                            Register
-                        </Link>
-                    </div>
-                )}
+                            <Link
+                                href={route("register")}
+                                className="text-black hover:text-primary-900"
+                            >
+                                Register
+                            </Link>
+                        </div>
+                    )}
+                </div>
             </div>
         </header>
     );
