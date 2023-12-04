@@ -14,7 +14,8 @@ class EventsController extends Controller
 {
     public function index() {
 
-        $events = Event::with(['user', 'tipeEvent'])->get()->map(function ($event) {
+        $events = Event::with(['user', 'tipeEvent'])
+            ->where('event_status', 'belum dimulai')->get()->map(function ($event) {
             $penyelenggara = Event::join('users', 'events.user_id', '=', 'users.id')->where('users.id', $event->user_id)->value('users.nama');
             return [
                 "id" => $event->id,
@@ -63,8 +64,8 @@ class EventsController extends Controller
 
         return Inertia::render('Events/Edit', ['event' => $event]);
     }
-    
-    public function store(Request $request) {
+
+    public function store(Request $request): RedirectResponse {
         $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
@@ -128,7 +129,7 @@ class EventsController extends Controller
         ]);
 
         return Redirect::route('dashboard');
-    } 
+    }
 
     public function delete(Request $request) {
         $event = Event::find($request->id);

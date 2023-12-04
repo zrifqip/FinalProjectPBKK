@@ -27,6 +27,7 @@ return new class extends Migration
             $table->dateTime('tanggal_tutup_pendaftaran');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->string('event_status')->default('belum dimulai');
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('admin_id')->references('id')->on('users');
