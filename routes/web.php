@@ -58,6 +58,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/events', [EventsController::class, 'store'])->name('events.store');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/dashboard/events', [DashboardController::class, 'events'])->name('dashboard.events');
+
+    Route::get('/dashboard/transaksi', [DashboardController::class, 'transaksi'])->name('dashboard.transaksi');
 });
 
 

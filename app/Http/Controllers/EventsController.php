@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -79,9 +80,11 @@ class EventsController extends Controller
             'harga' => $request->harga,
             'tanggal_tutup_pendaftaran' => $request->tanggal_tutup_pendaftaran,
             'tipe_event_id' => 1,
-            'user_id' => $request->user()->id
+            'user_id' => $request->user()->id,
+            'admin_id' => "04a53d2c-509f-4841-b782-7526b0faa389",
         ]);
 
+        //User::all()->where('role', 'admin')->random(1)
         return redirect("/");
     }
 

@@ -18,11 +18,13 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
-        $userId = User::all('id')->random();
+        $user = User::all();
+        $userId = $user->where('role', 'user')->random(1)->value('id');
+        $adminId = $user->where('role', 'admin')->random(1)->value('id');
         $tipeEventId = TipeEvent::all('id')->random();
 
         return [
-            'nama' => fake()->word(2),
+            'nama' => fake()->sentence(),
             'deskripsi' => fake()->paragraph(4),
             'tanggal' => fake()->dateTimeBetween('now', '+4 month'),
             'alamat' => fake()->address(),
@@ -30,6 +32,7 @@ class EventFactory extends Factory
             'harga' => fake()->numberBetween("10000", "40000"),
             'tanggal_tutup_pendaftaran' => fake()->dateTimeBetween('now', '+1 month'),
             'user_id' => $userId,
+            'admin_id' => $adminId,
             'tipe_event_id' => $tipeEventId,
         ];
     }

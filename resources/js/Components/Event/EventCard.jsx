@@ -1,5 +1,4 @@
 import { Link } from "@inertiajs/react";
-import { InertiaLink } from "@inertiajs/inertia-react";
 
 export default function EventCard({
     id,
