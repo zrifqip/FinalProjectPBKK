@@ -43,27 +43,28 @@ Route::get('/', function () {
 Route::get('/events', [EventsController::class, 'index'])->name("events.index");
 
 Route::middleware('auth')->group(function () {
-    Route::get('/transaction/{id}/confirm-payment', [TransaksiController::class, 'show'])->name('transaction.confirm-payment');
     Route::get('/events/new', function () {
         return Inertia::render('Events/Create');
     })->name('events.new');
     Route::post('/events/new', [EventsController::class, 'store'])->name('events.store');
-
+    
     Route::get('/events/detail/{id}', [EventsController::class, 'show'])->name('events.detail');
-
+    
     Route::get('/events/detail/{id}/edit', [EventsController::class, 'edit'])->name('events.edit');
-
+    
     Route::post('/events/edit', [EventsController::class, 'update'])->name('events.update');
-
+    
     Route::post('/events/delete', [EventsController::class, 'delete'])->name('events.delete');
     Route::post('/events', [EventsController::class, 'store'])->name('events.store');
-
+    
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
+    
     Route::get('/dashboard/events', [DashboardController::class, 'events'])->name('dashboard.events');
-
+    
     Route::get('/dashboard/transaksi', [DashboardController::class, 'transaksi'])->name('dashboard.transaksi');
-    Route::post('/confirm-payment', [TransaksiController::class, 'confirmPayment'])->name('transaction.confirmpayment');
-
+    
+    Route::get('/events/purchase/{id}', [TransaksiController::class, 'show'])->name('transaksi.index');
+    Route::post('/events/purchase/{id}', [TransaksiController::class, 'confirm'])->name('transaksi.confirm');
+    
 });
 require __DIR__.'/auth.php';

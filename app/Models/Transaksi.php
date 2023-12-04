@@ -15,7 +15,11 @@ class Transaksi extends Model
         'payment_date',
         'total_tiket',
         'harga_total',
+        'admin_id',
     ];
+
+    protected $table = 'transaksi'; 
+
     public function event()
     {
         return $this->belongsTo(Event::class, 'event_id');

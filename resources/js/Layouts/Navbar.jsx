@@ -40,7 +40,11 @@ export default function Navbar({ user }) {
                             <Link href={route("profile.edit")}>
                                 {user.nama}
                             </Link>
-                            <Link href={route("logout")} method="post">
+                            <Link
+                                href={route("logout")}
+                                as="button"
+                                method="post"
+                            >
                                 <div className="border border-black px-4 py-2 rounded-xl">
                                     Log Out
                                 </div>

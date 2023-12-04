@@ -1,39 +1,21 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Layout from "@/Layouts/Layout";
 import { Link } from "@inertiajs/react";
-import {Inertia} from "@inertiajs/inertia";
 
-
-function Detail({ auth, event }) {
-
-
+export default function Detail({ auth, event }) {
     if (!event) {
         return <div>Loading event details...</div>;
     }
     const [count, setCount] = useState(0);
-    const [totalPrice, setTotalPrice] = useState(0);
 
     const handleIncrease = () => {
         setCount(count + 1);
-        setTotalPrice(totalPrice + event.harga);
     };
     const handleDecrease = () => {
         if (count > 0) {
             setCount(count - 1);
-            setTotalPrice(totalPrice - event.harga);
         }
     };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        Inertia.visit(route('transaction.confirm-payment', {
-            id: event.id,
-            totalPrice: totalPrice, // Assuming you have this data in a state or prop
-            totalTickets: count // Assuming you have this data in a state or prop
-        }));
-    };
-
-
 
     return (
         <Layout user={auth.user} title={event.nama}>
@@ -77,26 +59,38 @@ function Detail({ auth, event }) {
                         </div>
                     </div>
 
-                    <div className="col-12 lg:col-4">
-                        <div className="p-3 h-full bg-white shadow-md rounded">
-                            <p>Total Tiket</p>
-                            <div className="flex items-center justify-between">
-                                <button className="bg-blue-500 text-white px-3 py-2" onClick={handleDecrease}>-</button>
-                                <span>{count}</span>
-                                <button className="bg-blue-500 text-white px-3 py-2" onClick={handleIncrease}>+</button>
-                            </div>
-                            <p>Sisa tiket: {event.jumlah_tiket}</p>
-
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleSubmit}>
-                                Beli
+                    <div className="flex flex-col gap-4 p-3 h-full bg-white shadow-md rounded">
+                        <p>Jumlah Tiket</p>
+                        <div className="flex items-center justify-between">
+                            <button
+                                className="bg-blue-500 text-white px-3 py-2"
+                                onClick={handleDecrease}
+                            >
+                                -
                             </button>
-
+                            <span>{count}</span>
+                            <button
+                                className="bg-blue-500 text-white px-3 py-2"
+                                onClick={handleIncrease}
+                            >
+                                +
+                            </button>
                         </div>
+                        <p>Sisa tiket: {event.jumlah_tiket}</p>
+
+                        <Link
+                            href={route("transaksi.index", {
+                                id: event.id,
+                                jumlah_tiket: count,
+                            })}
+                            as="button"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                            Beli
+                        </Link>
                     </div>
                 </div>
             </div>
         </Layout>
     );
 }
-
-export default Detail;
