@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardTransaksiController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransaksiController;
@@ -61,7 +62,8 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/dashboard/events', [DashboardController::class, 'events'])->name('dashboard.events');
     
-    Route::get('/dashboard/transaksi', [DashboardController::class, 'transaksi'])->name('dashboard.transaksi');
+    Route::get('/dashboard/transaksi', [DashboardTransaksiController::class, 'index'])->name('dashboard.transaksi.index');
+    Route::post('/dashboard/transaksi', [DashboardTransaksiController::class, 'update'])->name('dashboard.transaksi.update');
     
     Route::get('/events/purchase/{id}', [TransaksiController::class, 'show'])->name('transaksi.index');
     Route::post('/events/purchase/{id}', [TransaksiController::class, 'confirm'])->name('transaksi.confirm');

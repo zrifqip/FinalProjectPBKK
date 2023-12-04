@@ -21,7 +21,7 @@ export default function AdminDashboard({ auth }) {
                             <div>Manage Events</div>
                         </div>
                     </Link>
-                    <Link href={route("dashboard.transaksi")}>
+                    <Link href={route("dashboard.transaksi.index")}>
                         <div className="border rounded-xl w-full px-4 py-2">
                             <div>Manage Transaksi</div>
                         </div>
