@@ -1,4 +1,5 @@
 import { Link } from "@inertiajs/react";
+import { numericFormatter } from "react-number-format";
 
 export default function EventCard({
     id,
@@ -8,32 +9,35 @@ export default function EventCard({
     alamat,
     jumlah_tiket,
     harga,
+    banner,
 }) {
     return (
-        <Link href={`/events/detail/${id}`}>
-            <div className="flex flex-col gap-2 w-full rounded-md border px-8 py-4 shadow-md">
-                <div className="w-full flex flex-col">
+        <Link href={route("events.detail", { id: id })}>
+            <div className="flex flex-col gap-2 w-full rounded-xl bg-primary-50 shadow-md">
+                <div className="relative w-full h-56">
+                    <img
+                        src={`/storage/images/banner/${banner}`}
+                        alt={nama}
+                        className="rounded-t-xl w-full h-full object-cover"
+                    />
+                    <div className="absolute hover:bg-gradient-to-b from-black from-20% via-transparent via-50% to-80% to-black w-full h-full top-0 opacity-25 rounded-t-xl rounded" />
+                </div>
+                <div className="w-full flex flex-col px-4 pb-4">
                     <p className="text-2xl line-clamp-1">{nama}</p>
-                    <p className="text-sm">{tanggal}</p>
-                </div>
-                <div>
-                    <p className="font-bold">Deskripsi Event</p>
-                    <p className="line-clamp-3">{deskripsi}</p>
-                </div>
-
-                <div>
-                    <p className="font-bold">Lokasi</p>
-                    <p>{alamat}</p>
-                </div>
-
-                <div>
-                    <p className="font-bold">Tiket Tersedia</p>
-                    <p>{jumlah_tiket}</p>
-                </div>
-
-                <div>
-                    <p className="font-bold">Harga Tiket</p>
-                    <p>{harga}</p>
+                    <div className="flex flex-row items-center justify-between">
+                        <p className="text-sm">{tanggal}</p>
+                        <div className="flex flex-col items-end">
+                            <p>{jumlah_tiket} Tiket</p>
+                            <p className="font-bold text-xl">
+                                Rp&nbsp;
+                                {numericFormatter(harga, {
+                                    decimalSeparator: ",",
+                                    thousandSeparator: ".",
+                                })}
+                                ,-
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Link>

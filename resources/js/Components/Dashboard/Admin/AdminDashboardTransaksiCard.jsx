@@ -1,4 +1,4 @@
-import ImageView from "@/Components/ImageView";
+import ImageView from "@/Components/FileView";
 import { Link, router, useForm } from "@inertiajs/react";
 
 export default function AdminDashboardTransaksiCard({ transaksi, ...props }) {

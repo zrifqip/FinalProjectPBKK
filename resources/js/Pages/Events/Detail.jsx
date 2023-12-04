@@ -19,28 +19,27 @@ export default function Detail({ auth, event }) {
 
     return (
         <Layout user={auth.user} title={event.nama}>
-            <div className="max-w-7xl">
-                <div className="mt-6">
-                    <Link href={route("events.index")}>Kembali</Link>
-                </div>
+            <div className="flex flex-col gap-4 w-full max-w-7xl">
+                <img
+                    src={`/storage/images/banner/${event.banner}`}
+                    className="w-full h-60 object-cover rounded-xl"
+                />
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    <div className="lg:col-span-2 bg-white shadow-md rounded p-6">
+                    <div className="lg:col-span-2 bg-white shadow-md rounded-xl p-6">
                         <h1 className="text-xl font-bold mb-4">{event.nama}</h1>
                         <div>
+                            <p>{event.deskripsi}</p>
+                        </div>
+                        <div>
                             <h2 className="font-semibold">Tanggal dan Waktu</h2>
-                            <p>
-                                <strong>Tanggal:</strong> {event.tanggal}
-                            </p>
-                            <p>
-                                <strong>Waktu:</strong> {event.waktu}
-                            </p>
+                            {event.tanggal} {event.waktu}
                         </div>
                         <div>
                             <h2 className="font-semibold">Lokasi</h2>
                             <p>{event.alamat}</p>
                         </div>
                         <div>
-                            <h2 className="font-semibold">Organizer</h2>
+                            <h2 className="font-semibold">Penyelenggara</h2>
                             <p>{event.nama_user}</p>
                         </div>
                         <div>
@@ -49,17 +48,16 @@ export default function Detail({ auth, event }) {
                         </div>
                         <div>
                             <h2 className="font-semibold">
-                                Tanggal Tutup Pendaftaran
+                                Tanggal Buka Pendaftaran
                             </h2>
-                            <p>{event.tanggal_tutup_pendaftaran}</p>
-                        </div>
-                        <div>
-                            <h2 className="font-semibold">Deskripsi</h2>
-                            <p>{event.deskripsi}</p>
+                            <p>
+                                {event.tanggal_buka_pendaftaran} -{" "}
+                                {event.tanggal_tutup_pendaftaran}
+                            </p>
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4 p-3 h-full bg-white shadow-md rounded">
+                    <div className="flex flex-col gap-4 p-3 h-full bg-white shadow-md rounded-xl">
                         <p>Jumlah Tiket</p>
                         <div className="flex items-center justify-between">
                             <button

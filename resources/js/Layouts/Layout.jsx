@@ -13,7 +13,9 @@ export default function Layout({
             {withNavbar && <Navbar user={user} />}
             <Head title={title} />
             <main
-                className={`min-h-screen flex flex-col items-center pt-24 pb-4 ${className}`}
+                className={`min-h-screen flex flex-col items-center bg-primary-100 ${
+                    withNavbar && "pt-32 pb-4"
+                } ${className}`}
             >
                 {children}
             </main>

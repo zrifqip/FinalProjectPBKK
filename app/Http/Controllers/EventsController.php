@@ -25,7 +25,8 @@ class EventsController extends Controller
                 "penyelenggara" => $penyelenggara,
                 "alamat" => $event->alamat,
                 "jumlah_tiket" => $event->jumlah_tiket,
-                "harga" => $event->harga
+                "harga" => (string) $event->harga,
+                "banner" => $event->banner,
             ];
         });
 
@@ -35,16 +36,19 @@ class EventsController extends Controller
     }
     public function show($id) {
         $event = Event::with(['user', 'tipeEvent'])->findOrFail($id);
+
         $eventDetails = [
             "id" => $event->id,
             "deskripsi" => $event->deskripsi,
             "nama" => $event->nama,
-            "tanggal" => (new DateTime($event->tanggal))->format('dS-F-Y'),
+            "tanggal" => (new DateTime($event->tanggal))->format('d F Y'),
             "waktu" => (new DateTime($event->tanggal))->format('H:i'),
             "alamat" => $event->alamat,
             "jumlah_tiket" => $event->jumlah_tiket,
             "harga" => $event->harga,
-            "tanggal_tutup_pendaftaran" => (new DateTime($event->tanggal_tutup_pendaftaran))->format('dS-F-Y H:i'),
+            "banner" => $event->banner,
+            "tanggal_buka_pendaftaran" => date_format(date_create($event->tanggal_buka_pendaftaran), 'd F Y H:i'),
+            "tanggal_tutup_pendaftaran" => (new DateTime($event->tanggal_tutup_pendaftaran))->format('d F Y H:i'),
             "nama_user" => $event->user->nama,
             "tipe_event" => $event->tipeEvent->nama,
 
@@ -60,7 +64,7 @@ class EventsController extends Controller
         return Inertia::render('Events/Edit', ['event' => $event]);
     }
     
-    public function store(Request $request): RedirectResponse {
+    public function store(Request $request) {
         $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
@@ -68,8 +72,14 @@ class EventsController extends Controller
             'alamat' => 'required',
             'jumlah_tiket' => 'required',
             'harga' => 'required',
+            'banner' => 'required',
+            'tanggal_buka_pendaftaran' => 'required',
             'tanggal_tutup_pendaftaran' => 'required',
         ]);
+
+        $fileName = $request->nama.time().'.jpg';
+
+        $request->banner->storeAs('public/images/banner', $fileName);
 
         Event::create([
             'nama' => $request->nama,
@@ -78,14 +88,15 @@ class EventsController extends Controller
             'alamat' => $request->alamat,
             'jumlah_tiket' => $request->jumlah_tiket,
             'harga' => $request->harga,
+            'banner' => $fileName,
+            'tanggal_buka_pendaftaran' => $request->tanggal_buka_pendaftaran,
             'tanggal_tutup_pendaftaran' => $request->tanggal_tutup_pendaftaran,
             'tipe_event_id' => 1,
             'user_id' => $request->user()->id,
-            'admin_id' => "04a53d2c-509f-4841-b782-7526b0faa389",
+            'admin_id' => User::all()->where('role', 'admin')->random(1)->value('id'),
         ]);
-
-        //User::all()->where('role', 'admin')->random(1)
-        return redirect("/");
+   
+        return Redirect::route("events.index");
     }
 
     public function update(Request $request) {
@@ -96,10 +107,14 @@ class EventsController extends Controller
             'alamat' => 'required',
             'jumlah_tiket' => 'required',
             'harga' => 'required',
+            'banner' => 'required',
+            'tanggal_buka_pendaftaran' => 'required',
             'tanggal_tutup_pendaftaran' => 'required',
         ]);
 
         $event = Event::find($request->id);
+
+        $request->banner->storeAs('public/images/banner', $event->banner);
 
         $event->update([
             'nama' => $request->nama,
@@ -108,6 +123,7 @@ class EventsController extends Controller
             'alamat' => $request->alamat,
             'jumlah_tiket' => $request->jumlah_tiket,
             'harga' => $request->harga,
+            'tanggal_buka_pendaftaran' => $request->tanggal_buka_pendaftaran,
             'tanggal_tutup_pendaftaran' => $request->tanggal_tutup_pendaftaran,
         ]);
 

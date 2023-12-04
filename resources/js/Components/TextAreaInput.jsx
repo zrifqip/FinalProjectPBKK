@@ -13,7 +13,7 @@ export default forwardRef(function TextInput(
     }, []);
 
     return (
-        <input
+        <textarea
             {...props}
             type={type}
             className={
