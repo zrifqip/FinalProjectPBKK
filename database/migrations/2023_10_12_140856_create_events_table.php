@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('user_id');
+            $table->uuid('admin_id');
             $table->unsignedInteger('tipe_event_id');
             $table->string('nama');
             $table->mediumText('deskripsi');
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('admin_id')->references('id')->on('users');
             $table->foreign('tipe_event_id')->references('id')->on('tipe_event');
         });
     }

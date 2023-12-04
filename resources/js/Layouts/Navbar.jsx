@@ -17,8 +17,8 @@ export default function Navbar({ user }) {
         },
     ];
     return (
-        <header className="fixed top-0 z-[100] w-full shadow-md">
-            <div className="mx-auto max-w-7xl flex h-20 flex-row justify-between items-center px-12 py-6 bg-white">
+        <header className="bg-white fixed top-0 z-[100] w-full shadow-md">
+            <div className="mx-auto max-w-7xl flex h-20 flex-row justify-between items-center px-12 py-6">
                 <nav className="flex flex-row items-center gap-8">
                     <Link href="/" className="text-xl">
                         ventik
@@ -33,7 +33,9 @@ export default function Navbar({ user }) {
                 </nav>
                 {user ? (
                     <div className="inline-flex items-center gap-8">
-                        <Link href={route("events.new")}>Create</Link>
+                        {user.role === "user" && (
+                            <Link href={route("events.new")}>Create</Link>
+                        )}
                         <div className="flex flex-row items-center gap-4">
                             <Link href={route("profile.edit")}>
                                 {user.nama}
