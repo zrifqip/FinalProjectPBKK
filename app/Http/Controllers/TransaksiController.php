@@ -12,50 +12,47 @@ class TransaksiController extends Controller
 {
     public function show(Request $request, $id) {
         $event = Event::with(['user'])->findOrFail($id);
-        $totalPrice = $request->query('totalPrice');
-        $totalTickets = $request->query('totalTickets');
-        $eventDetails = [
-            "id" => $event->id,
-            "nama" => $event->nama,
-            "harga" => $event->harga,
+        $props = [
+            "event" => [
+                "id" => $event->id,
+                "nama" => $event->nama,
+                "harga" => $event->harga,
+            ],
+            "jumlah_tiket" => (int) $request->jumlah_tiket
         ];
-        return Inertia::render('Events/transaksiconfirmation', [
-            'event' => $eventDetails,
-            'totalPrice' => $totalPrice,
-            'totalTickets' => $totalTickets,
+
+        return Inertia::render('Events/Purchase', [
+            "props" => $props
         ]);
     }
-    public function confirmPayment(Request $request)
+    public function confirm(Request $request)
     {
-            $validatedData = $request->validate([
-            'totalTickets' => 'required',
-            'totalPrice' => 'required',
-            'bukti_pembayaran' => 'required'
 
+        $request->validate([
+            'total_tiket' => 'required',
+            'bukti_pembayaran' => 'required|file'
         ]);
-        info('Controller action accessed: YourController@yourControllerAction');
-        $paymentDate = now();
-        if ($request->hasFile('bukti_pembayaran')) {
-            $filename = $request->bukti_pembayaran->store('payments');
-            $validatedData['bukti_pembayaran'] = $filename;
-        }
+
+
+        $request->bukti_pembayaran->storeAs('public/images', $request->bukti_pembayaran->getClientOriginalName());
+
+        // if ($request->hasFile('bukti_pembayaran')) {
+        //     $filename = $request->bukti_pembayaran->store('payments');
+        //     $validatedData['bukti_pembayaran'] = $filename;
+        // }
+
+        $eventData = Event::select('harga', 'admin_id')->find($request->id);
 
         // Create a new transaction record
-        $transaksi = new Transaksi([
-            'user_id' => $request->user()->id, // Automatically get the user's ID
-            'event_id' => $validatedData['event_id'], // Get event ID from the request
-            'bukti_pembayaran' => $validatedData['bukti_pembayaran'],
+        Transaksi::create([
+            'bukti_pembayaran' => $request->bukti_pembayaran->getClientOriginalName(),
             'status_pembayaran' => 'waiting confirmation',
-            'payment_date' => [$paymentDate], // Set the payment date to the current time
-            'total_tiket' => $validatedData['totalTickets'],
-            'harga_total' => $validatedData['totalPrice'],
+            'total_tiket' => $request->total_tiket,
+            'harga_total' => $eventData->harga * $request->total_tiket,
+            'user_id' => $request->user()->id, // Automatically get the user's ID
+            'event_id' => $request->id, // Get event ID from the request
+            'admin_id' => $eventData->admin_id,
         ]);
-
-        $transaksi->save();
-
-
-        // After storing data, you can redirect or return a response
-        return route("Home");
 
     }
 }
