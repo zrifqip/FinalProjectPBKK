@@ -26,6 +26,11 @@ export default function UserDashboard({ auth, events }) {
                             <div>Transaksi Anda</div>
                         </div>
                     </Link>
+                    <Link href={route("tickets.byTransaksi")}>
+                        <div className="border rounded-xl w-full px-4 py-2">
+                            <div>Tickets</div>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </Layout>

@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->increments('id');
             $table->unsignedInteger('transaksi_id')->index();
             $table->string('kode');
-
+            $table->boolean('isClaimed')->default(false);
             $table->foreign('transaksi_id')->references('id')->on('transaksi');
         });
     }
