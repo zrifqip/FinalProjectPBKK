@@ -12,7 +12,6 @@ export default function AdminDashboardTransaksiCard({ transaksi, ...props }) {
         );
     };
 
-    console.log(transaksi.bukti_pembayaran);
     return (
         <div
             {...props}

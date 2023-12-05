@@ -13,27 +13,41 @@ use Inertia\Inertia;
 
 class EventsController extends Controller
 {
-    public function index() {
-
-        $events = Event::with(['user', 'tipeEvent'])
-            ->where('event_status', 'belum dimulai')->get()->map(function ($event) {
-            $penyelenggara = Event::join('users', 'events.user_id', '=', 'users.id')->where('users.id', $event->user_id)->value('users.nama');
+    public function index(Request $request) {
+        $filter = $request->query('filter');
+        
+        $events = Event::with(['user', 'tipeEvent'])->where('event_status', 'belum dimulai')->get()->map(function ($event) {
             return [
                 "id" => $event->id,
                 "nama" => $event->nama,
                 "deskripsi" => $event->deskripsi,
                 "tanggal" => date_format(date_create($event->tanggal), 'd F Y'),
                 "waktu" => date_format(date_create($event->tanggal), 'H:i'),
-                "penyelenggara" => $penyelenggara,
+                "penyelenggara" => $event->user->nama,
                 "alamat" => $event->alamat,
                 "jumlah_tiket" => $event->jumlah_tiket,
                 "harga" => (string) $event->harga,
                 "banner" => $event->banner,
+                "tipe_event_id" => $event->tipe_event_id,
             ];
         });
+        
+        if ($filter != null) {
+            $events = $events->where('tipe_event_id', $filter);
+        }
+
+        
+        $filteredEvents = [];
+        foreach ($events as $event) {
+            $filteredEvents[] = $event;
+        }
+
+        $tipe_event = TipeEvent::all();
 
         return Inertia::render('Event', [
-            'events' => $events
+            'events' => $filteredEvents,
+            'tipe_event' => $tipe_event,
+            'filter' => $filter,
         ]);
     }
 
@@ -71,15 +85,16 @@ class EventsController extends Controller
 
     public function edit($id) {
         $event = Event::find($id);
+        $tipe_event = TipeEvent::all();
 
-        return Inertia::render('Events/Edit', ['event' => $event]);
+        return Inertia::render('Events/Edit', ['event' => $event, 'tipe_event' => $tipe_event]);
     }
 
     public function store(Request $request): RedirectResponse {
         $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
-            'tipe_event' => 'required',
+            'tipe_event_id' => 'required',
             'tanggal' => 'required',
             'alamat' => 'required',
             'jumlah_tiket' => 'required',
@@ -102,7 +117,7 @@ class EventsController extends Controller
             'banner' => $fileName,
             'tanggal_buka_pendaftaran' => $request->tanggal_buka_pendaftaran,
             'tanggal_tutup_pendaftaran' => $request->tanggal_tutup_pendaftaran,
-            'tipe_event_id' => $request->tipe_event,
+            'tipe_event_id' => $request->tipe_event_id,
             'user_id' => $request->user()->id,
             'admin_id' => User::all()->where('role', 'admin')->random(1)->value('id'),
         ]);
@@ -110,10 +125,12 @@ class EventsController extends Controller
         return Redirect::route("events.index");
     }
 
+
     public function update(Request $request) {
         $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
+            'tipe_event_id' => 'required',
             'tanggal' => 'required',
             'alamat' => 'required',
             'jumlah_tiket' => 'required',
@@ -133,6 +150,7 @@ class EventsController extends Controller
         $event->update([
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
+            'tipe_event_id' => $request->tipe_event_id,
             'tanggal' => $request->tanggal,
             'alamat' => $request->alamat,
             'jumlah_tiket' => $request->jumlah_tiket,
@@ -141,7 +159,7 @@ class EventsController extends Controller
             'tanggal_tutup_pendaftaran' => $request->tanggal_tutup_pendaftaran,
         ]);
 
-        return Redirect::route('dashboard');
+        return Redirect::route('dashboard.events');
     }
 
     public function delete(Request $request) {

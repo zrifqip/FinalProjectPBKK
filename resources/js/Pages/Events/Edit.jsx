@@ -7,10 +7,11 @@ import TextInput from "@/Components/TextInput";
 import Layout from "@/Layouts/Layout";
 import { useForm } from "@inertiajs/react";
 
-export default function EditEvent({ auth, event }) {
-    const { data, setData, post, processing, errors, transform } = useForm({
+export default function EditEvent({ auth, event, tipe_event }) {
+    const { data, setData, post, processing, errors } = useForm({
         id: event.id,
         nama: event.nama,
+        tipe_event_id: event.tipe_event_id,
         deskripsi: event.deskripsi,
         tanggal: event.tanggal,
         alamat: event.alamat,
@@ -70,6 +71,30 @@ export default function EditEvent({ auth, event }) {
                                 message={errors.deskripsi}
                                 className="mt-2"
                             />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <InputLabel
+                                htmlFor="tipe_event_id"
+                                value="Tipe Event"
+                            />
+
+                            <select
+                                id="tipe_event_id"
+                                name="tipe_event_id"
+                                defaultValue=""
+                                value={data.tipe_event_id}
+                                onChange={(e) =>
+                                    setData("tipe_event_id", e.target.value)
+                                }
+                            >
+                                <option value="" disabled>
+                                    Pilih Tipe Event
+                                </option>
+                                {tipe_event.map((tipe) => (
+                                    <option value={tipe.id}>{tipe.nama}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -201,13 +226,8 @@ export default function EditEvent({ auth, event }) {
                             />
                         </div>
 
-                        <div className="flex flex-row gap-4">
-                            {data.banner && (
-                                <FileView
-                                    text="Lihat File"
-                                    file={data.banner}
-                                />
-                            )}
+                        <div className="flex flex-col items-start gap-1">
+                            <InputLabel htmlFor="banner" value="Banner" />
                             <input
                                 id="banner"
                                 name="banner"
@@ -216,6 +236,12 @@ export default function EditEvent({ auth, event }) {
                                     setData("banner", e.target.files[0])
                                 }
                             />
+                            {data.banner && (
+                                <FileView
+                                    text="Lihat File"
+                                    file={data.banner}
+                                />
+                            )}
                         </div>
                     </div>
 
