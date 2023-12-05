@@ -8,7 +8,7 @@ import Layout from "@/Layouts/Layout";
 import { useForm } from "@inertiajs/react";
 
 export default function EditEvent({ auth, event }) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, transform } = useForm({
         id: event.id,
         nama: event.nama,
         deskripsi: event.deskripsi,
@@ -20,8 +20,6 @@ export default function EditEvent({ auth, event }) {
         tanggal_buka_pendaftaran: event.tanggal_buka_pendaftaran,
         tanggal_tutup_pendaftaran: event.tanggal_tutup_pendaftaran,
     });
-
-    console.log(event);
 
     const submit = (e) => {
         e.preventDefault();
@@ -207,8 +205,7 @@ export default function EditEvent({ auth, event }) {
                             {data.banner && (
                                 <FileView
                                     text="Lihat File"
-                                    src={data.banner}
-                                    className=""
+                                    file={data.banner}
                                 />
                             )}
                             <input

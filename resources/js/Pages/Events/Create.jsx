@@ -7,10 +7,11 @@ import TextInput from "@/Components/TextInput.jsx";
 import Layout from "@/Layouts/Layout.jsx";
 import { useForm } from "@inertiajs/react";
 
-export default function CreateEvent({ auth }) {
+export default function CreateEvent({ auth, tipe_event }) {
     const { data, setData, post, processing, errors } = useForm({
         nama: "",
         deskripsi: "",
+        tipe_event: "",
         tanggal: "",
         alamat: "",
         jumlah_tiket: 0,
@@ -19,7 +20,8 @@ export default function CreateEvent({ auth }) {
         tanggal_buka_pendaftaran: "",
         tanggal_tutup_pendaftaran: "",
     });
-    console.log(data.banner);
+
+    console.log(data);
 
     const submit = (e) => {
         e.preventDefault();
@@ -71,6 +73,30 @@ export default function CreateEvent({ auth }) {
                                 message={errors.deskripsi}
                                 className="mt-2"
                             />
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                            <InputLabel
+                                htmlFor="tipe_event"
+                                value="Tipe Event"
+                            />
+
+                            <select
+                                id="tipe_event"
+                                name="tipe_event"
+                                defaultValue=""
+                                value={data.tipe_event}
+                                onChange={(e) =>
+                                    setData("tipe_event", e.target.value)
+                                }
+                            >
+                                <option value="" disabled>
+                                    Pilih Tipe Event
+                                </option>
+                                {tipe_event.map((tipe) => (
+                                    <option value={tipe.id}>{tipe.nama}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -206,8 +232,7 @@ export default function CreateEvent({ auth }) {
                             {data.banner && (
                                 <FileView
                                     text="Lihat File"
-                                    src={data.banner.name}
-                                    className=""
+                                    file={data.banner}
                                 />
                             )}
                             <input

@@ -28,7 +28,7 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <Layout withNavbar={false}>
+        <Layout withNavbar={false} title="Login">
             <div className="flex w-screen">
                 <section className="flex flex-col justify-center gap-8 w-5/12 h-screen px-16 bg-primary-50">
                     <div className="w-full text-center">

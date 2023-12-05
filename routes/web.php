@@ -44,9 +44,7 @@ Route::get('/', function () {
 Route::get('/events', [EventsController::class, 'index'])->name("events.index");
 
 Route::middleware('auth')->group(function () {
-    Route::get('/events/new', function () {
-        return Inertia::render('Events/Create');
-    })->name('events.new');
+    Route::get('/events/new', [EventsController::class, 'new'])->name('events.new');
     Route::post('/events/new', [EventsController::class, 'store'])->name('events.store');
     
     Route::get('/events/detail/{id}', [EventsController::class, 'show'])->name('events.detail');
@@ -66,7 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/transaksi', [DashboardTransaksiController::class, 'update'])->name('dashboard.transaksi.update');
     
     Route::get('/events/purchase/{id}', [TransaksiController::class, 'show'])->name('transaksi.index');
-    Route::post('/events/purchase/{id}', [TransaksiController::class, 'confirm'])->name('transaksi.confirm');
+    Route::post('/events/purchase', [TransaksiController::class, 'confirm'])->name('transaksi.confirm');
     
 });
 require __DIR__.'/auth.php';

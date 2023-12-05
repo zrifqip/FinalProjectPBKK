@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Layout from "@/Layouts/Layout";
 import { Link } from "@inertiajs/react";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function Detail({ auth, event }) {
     if (!event) {
@@ -17,8 +18,10 @@ export default function Detail({ auth, event }) {
         }
     };
 
+    const user = auth.user;
+
     return (
-        <Layout user={auth.user} title={event.nama}>
+        <Layout user={user} title={event.nama}>
             <div className="flex flex-col gap-4 w-full max-w-7xl">
                 <img
                     src={`/storage/images/banner/${event.banner}`}
@@ -40,7 +43,7 @@ export default function Detail({ auth, event }) {
                         </div>
                         <div>
                             <h2 className="font-semibold">Penyelenggara</h2>
-                            <p>{event.nama_user}</p>
+                            <p>{event.user.nama}</p>
                         </div>
                         <div>
                             <h2 className="font-semibold">Tipe Event</h2>
@@ -57,36 +60,44 @@ export default function Detail({ auth, event }) {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4 p-3 h-full bg-white shadow-md rounded-xl">
-                        <p>Jumlah Tiket</p>
-                        <div className="flex items-center justify-between">
-                            <button
-                                className="bg-blue-500 text-white px-3 py-2"
-                                onClick={handleDecrease}
-                            >
-                                -
-                            </button>
-                            <span>{count}</span>
-                            <button
-                                className="bg-blue-500 text-white px-3 py-2"
-                                onClick={handleIncrease}
-                            >
-                                +
-                            </button>
-                        </div>
-                        <p>Sisa tiket: {event.jumlah_tiket}</p>
+                    {user.id === event.user.id ? (
+                        <PrimaryButton className="h-fit">
+                            <Link href={route("dashboard.events")}>
+                                Lihat Dashboard
+                            </Link>
+                        </PrimaryButton>
+                    ) : (
+                        <div className="flex flex-col gap-4 p-3 h-full bg-white shadow-md rounded-xl">
+                            <p>Jumlah Tiket</p>
+                            <div className="flex items-center justify-between">
+                                <button
+                                    className="bg-blue-500 text-white px-3 py-2"
+                                    onClick={handleDecrease}
+                                >
+                                    -
+                                </button>
+                                <span>{count}</span>
+                                <button
+                                    className="bg-blue-500 text-white px-3 py-2"
+                                    onClick={handleIncrease}
+                                >
+                                    +
+                                </button>
+                            </div>
+                            <p>Sisa tiket: {event.jumlah_tiket}</p>
 
-                        <Link
-                            href={route("transaksi.index", {
-                                id: event.id,
-                                jumlah_tiket: count,
-                            })}
-                            as="button"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                            Beli
-                        </Link>
-                    </div>
+                            <Link
+                                href={route("transaksi.index", {
+                                    id: event.id,
+                                    jumlah_tiket: count,
+                                })}
+                                as="button"
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                                Beli
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
         </Layout>

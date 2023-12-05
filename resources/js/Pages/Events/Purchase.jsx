@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Layout from "@/Layouts/Layout.jsx";
 import { useForm } from "@inertiajs/react";
+import FileView from "@/Components/FileView";
 
 export default function PurchaseTiket({ auth, props }) {
     const { event, jumlah_tiket } = props;
     const { data, setData, post } = useForm({
+        id: event.id,
         bukti_pembayaran: "",
         total_tiket: Math.max(jumlah_tiket, 1),
     });
@@ -12,14 +14,14 @@ export default function PurchaseTiket({ auth, props }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        post(route("transaksi.confirm", { id: event.id }));
+        post(route("transaksi.confirm"));
     };
 
     return (
         <Layout withNavbar user={auth.user} title="Events">
             <div className="container mx-auto p-4">
                 <h2 className="text-2xl font-bold mb-4">
-                    Payment Confirmation
+                    Konfirmasi Pembayaran
                 </h2>
                 <p>{event.nama}</p>
 
@@ -56,15 +58,26 @@ export default function PurchaseTiket({ auth, props }) {
                         >
                             Upload file
                         </label>
-                        <input
-                            onChange={(e) =>
-                                setData("bukti_pembayaran", e.target.files[0])
-                            }
-                            id="bukti_pembayaran"
-                            name="bukti_pembayaran"
-                            type="file"
-                            className="ml-5 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block p-1 text-sm border w-100"
-                        ></input>
+                        <div className="flex flex-row gap-4">
+                            {data.bukti_pembayaran && (
+                                <FileView
+                                    text="Lihat File"
+                                    file={data.bukti_pembayaran}
+                                />
+                            )}
+                            <input
+                                onChange={(e) =>
+                                    setData(
+                                        "bukti_pembayaran",
+                                        e.target.files[0]
+                                    )
+                                }
+                                id="bukti_pembayaran"
+                                name="bukti_pembayaran"
+                                type="file"
+                                className="ml-5 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block p-1 text-sm border w-100"
+                            />
+                        </div>
                     </div>
 
                     {/* Button */}

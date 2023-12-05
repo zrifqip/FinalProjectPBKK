@@ -1,4 +1,4 @@
-import ImageView from "@/Components/FileView";
+import FileView from "@/Components/FileView";
 import { Link } from "@inertiajs/react";
 
 export default function UserDashboardTransaksiCard({ transaksi, ...props }) {
@@ -18,7 +18,10 @@ export default function UserDashboardTransaksiCard({ transaksi, ...props }) {
             <div>{transaksi.total_tiket}</div>
             <div>{transaksi.harga_total}</div>
 
-            <ImageView src={transaksi.bukti_pembayaran} />
+            <FileView
+                text="Bukti Pembayaran"
+                file={`pembayaran/${transaksi.bukti_pembayaran}`}
+            />
 
             <div className="w-48">{transaksi.status_pembayaran}</div>
         </div>
