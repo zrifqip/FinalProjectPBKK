@@ -11,7 +11,7 @@ export default function CreateEvent({ auth, tipe_event }) {
     const { data, setData, post, processing, errors } = useForm({
         nama: "",
         deskripsi: "",
-        tipe_event: "",
+        tipe_event_id: "",
         tanggal: "",
         alamat: "",
         jumlah_tiket: 0,
@@ -20,8 +20,6 @@ export default function CreateEvent({ auth, tipe_event }) {
         tanggal_buka_pendaftaran: "",
         tanggal_tutup_pendaftaran: "",
     });
-
-    console.log(data);
 
     const submit = (e) => {
         e.preventDefault();
@@ -77,17 +75,17 @@ export default function CreateEvent({ auth, tipe_event }) {
 
                         <div className="flex flex-col gap-1">
                             <InputLabel
-                                htmlFor="tipe_event"
+                                htmlFor="tipe_event_id"
                                 value="Tipe Event"
                             />
 
                             <select
-                                id="tipe_event"
-                                name="tipe_event"
+                                id="tipe_event_id"
+                                name="tipe_event_id"
                                 defaultValue=""
-                                value={data.tipe_event}
+                                value={data.tipe_event_id}
                                 onChange={(e) =>
-                                    setData("tipe_event", e.target.value)
+                                    setData("tipe_event_id", e.target.value)
                                 }
                             >
                                 <option value="" disabled>
@@ -228,13 +226,8 @@ export default function CreateEvent({ auth, tipe_event }) {
                             />
                         </div>
 
-                        <div className="flex flex-row gap-4">
-                            {data.banner && (
-                                <FileView
-                                    text="Lihat File"
-                                    file={data.banner}
-                                />
-                            )}
+                        <div className="flex flex-col items-start gap-1">
+                            <InputLabel htmlFor="banner" value="Banner" />
                             <input
                                 id="banner"
                                 name="banner"
@@ -243,6 +236,12 @@ export default function CreateEvent({ auth, tipe_event }) {
                                     setData("banner", e.target.files[0])
                                 }
                             />
+                            {data.banner && (
+                                <FileView
+                                    text="Lihat File"
+                                    file={data.banner}
+                                />
+                            )}
                         </div>
                     </div>
 

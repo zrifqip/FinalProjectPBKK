@@ -12,7 +12,7 @@ export default function MyEvents({ auth, events }) {
                     {events.map((event) => (
                         <div
                             key={event.id}
-                            className="flex justify-between px-4 py-2 rounded-xl border"
+                            className="flex flex-row justify-between rounded-xl w-full px-8 py-4 bg-white shadow-md"
                         >
                             <div>{event.nama}</div>
                             <div className="flex gap-4">
@@ -21,7 +21,7 @@ export default function MyEvents({ auth, events }) {
                                         id: event.id,
                                     })}
                                 >
-                                    <div clas>Edit</div>
+                                    Edit
                                 </Link>
                                 <Link
                                     href={route("events.delete", {
@@ -29,6 +29,7 @@ export default function MyEvents({ auth, events }) {
                                     })}
                                     method="post"
                                     as="button"
+                                    className="text-red-600"
                                 >
                                     Delete
                                 </Link>
