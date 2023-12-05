@@ -1,5 +1,5 @@
-import ImageView from "@/Components/FileView";
-import { Link, router, useForm } from "@inertiajs/react";
+// import FileView from "@/Components/FileView";
+import { Link, router } from "@inertiajs/react";
 
 export default function AdminDashboardTransaksiCard({ transaksi, ...props }) {
     const onChange = (e) => {
@@ -11,6 +11,8 @@ export default function AdminDashboardTransaksiCard({ transaksi, ...props }) {
             })
         );
     };
+
+    console.log(transaksi.bukti_pembayaran);
     return (
         <div
             {...props}
@@ -27,7 +29,7 @@ export default function AdminDashboardTransaksiCard({ transaksi, ...props }) {
             <div>{transaksi.total_tiket}</div>
             <div>{transaksi.harga_total}</div>
 
-            <ImageView src={transaksi.bukti_pembayaran} />
+            {/* <FileView file={transaksi.bukti_pembayaran} /> */}
 
             <select id="" defaultValue="" onChange={onChange} className="w-48">
                 <option value="" disabled>

@@ -7,7 +7,6 @@ export default function MyEvents({ auth, events }) {
             <div className="w-full max-w-7xl">
                 <div className="flex flex-row items-center gap-4 mb-4">
                     <h2 className="text-4xl">Event Anda</h2>
-                    <Link href={route("events.new")}>Create</Link>
                 </div>
                 <div className="flex flex-col gap-2">
                     {events.map((event) => (

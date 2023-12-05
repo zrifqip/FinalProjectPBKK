@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\TipeEvent;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\RedirectResponse;
@@ -35,6 +36,12 @@ class EventsController extends Controller
             'events' => $events
         ]);
     }
+
+    public function new() {
+        $tipe_event = TipeEvent::all();
+
+        return Inertia::render('Events/Create', ["tipe_event" => $tipe_event]);
+    }
     public function show($id) {
         $event = Event::with(['user', 'tipeEvent'])->findOrFail($id);
 
@@ -50,7 +57,10 @@ class EventsController extends Controller
             "banner" => $event->banner,
             "tanggal_buka_pendaftaran" => date_format(date_create($event->tanggal_buka_pendaftaran), 'd F Y H:i'),
             "tanggal_tutup_pendaftaran" => (new DateTime($event->tanggal_tutup_pendaftaran))->format('d F Y H:i'),
-            "nama_user" => $event->user->nama,
+            "user" => [
+                "id" => $event->user->id,
+                "nama" => $event->user->nama,
+            ],
             "tipe_event" => $event->tipeEvent->nama,
 
         ];
@@ -69,6 +79,7 @@ class EventsController extends Controller
         $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
+            'tipe_event' => 'required',
             'tanggal' => 'required',
             'alamat' => 'required',
             'jumlah_tiket' => 'required',
@@ -77,7 +88,6 @@ class EventsController extends Controller
             'tanggal_buka_pendaftaran' => 'required',
             'tanggal_tutup_pendaftaran' => 'required',
         ]);
-
         $fileName = $request->nama.time().'.jpg';
 
         $request->banner->storeAs('public/images/banner', $fileName);
@@ -92,7 +102,7 @@ class EventsController extends Controller
             'banner' => $fileName,
             'tanggal_buka_pendaftaran' => $request->tanggal_buka_pendaftaran,
             'tanggal_tutup_pendaftaran' => $request->tanggal_tutup_pendaftaran,
-            'tipe_event_id' => 1,
+            'tipe_event_id' => $request->tipe_event,
             'user_id' => $request->user()->id,
             'admin_id' => User::all()->where('role', 'admin')->random(1)->value('id'),
         ]);
@@ -114,8 +124,11 @@ class EventsController extends Controller
         ]);
 
         $event = Event::find($request->id);
-
-        $request->banner->storeAs('public/images/banner', $event->banner);
+        
+        if (gettype($request->banner) == 'object') {
+            $request->banner->storeAs('public/images/banner', $event->banner);
+        } 
+        
 
         $event->update([
             'nama' => $request->nama,

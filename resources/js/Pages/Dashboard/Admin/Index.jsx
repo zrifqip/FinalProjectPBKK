@@ -12,17 +12,17 @@ export default function AdminDashboard({ auth }) {
                 </div>
                 <div className="flex flex-col gap-4">
                     <Link href={route("profile.edit")}>
-                        <div className="border rounded-xl w-full px-4 py-2">
+                        <div className="rounded-xl w-full px-4 py-2 bg-white shadow-md hover:bg-primary-50">
                             <div>Profile</div>
                         </div>
                     </Link>
                     <Link href={route("dashboard.events")}>
-                        <div className="border rounded-xl w-full px-4 py-2">
+                        <div className="rounded-xl w-full px-4 py-2 bg-white shadow-md hover:bg-primary-50">
                             <div>Manage Events</div>
                         </div>
                     </Link>
                     <Link href={route("dashboard.transaksi.index")}>
-                        <div className="border rounded-xl w-full px-4 py-2">
+                        <div className="rounded-xl w-full px-4 py-2 bg-white shadow-md hover:bg-primary-50">
                             <div>Manage Transaksi</div>
                         </div>
                     </Link>

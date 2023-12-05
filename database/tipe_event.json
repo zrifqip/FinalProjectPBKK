@@ -1,0 +1,38 @@
+[
+    {
+        "id": "1",
+        "nama": "Konser"
+    },
+    {
+        "id": "2",
+        "nama": "Jejepangan"
+    },
+    {
+        "id": "3",
+        "nama": "Pesta"
+    },
+    {
+        "id": "4",
+        "nama": "Pernikahan"
+    },
+    {
+        "id": "5",
+        "nama": "Seminar"
+    },
+    {
+        "id": "6",
+        "nama": "Wisuda"
+    },
+    {
+        "id": "7",
+        "nama": "Pameran"
+    },
+    {
+        "id": "8",
+        "nama": "Workshop"
+    },
+    {
+        "id": "9",
+        "nama": "Turnamen"
+    }
+]
